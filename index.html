@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+    <div class="container">
+        <h1>customer reservation</h1>
+        <input type="text" id="customername" placeholder="customername">
+        <input type="text" id="numberofguest" placeholder="numberofguest">
+        <input type="text" id="reservationtime" placeholder="reservationtime">
+        <button onclick="add()">Add</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>customer name</th>
+                    <th>numberof guest</th>
+                    <th>reservation time</th>
+                </tr>
+            </thead>
+            <tbody id="customerreservation"></tbody>
+        </table>
+    </div>
+    <script src="script.js"></script>
+
+</body>
+</html>
