@@ -1,39 +1,44 @@
-function addTrain() {
-    const trainNumber = document.getElementById("customername").value;
-    const arrivalTime = document.getElementById("numberofguests").value;
-    const departureTime = document.getElementById("reservationtime").value;
+let reservations = [];
 
-    if (trainNumber !== "") {
-        const table = document.getElementById("customerreservation");
-        const row = table.insertRow();
 
-        row.insertCell(0).innerText = customername;
-        row.insertCell(1).innerText = numberofguests;
-        row.insertCell(2).innerText = reservationtime;
-        row.insertCell(3).innerHTML = '<button onclick="deleteRow(this)">Delete</button>';
-        row.insertCell(4).innerHTML = '<button onclick="updateRow(this)">Update</button>';
-    } else {
-        alert("Please enter the details");
-    }
+function addReservation(name, numberOfGuests, reservationTime) {
+    const reservation = {
+        name: name,
+        numberOfGuests: numberOfGuests,
+        reservationTime: new Date(reservationTime)
+    };
+    reservations.push(reservation);
+    updateReservationList();
 }
 
-function deleteRow(button) {
-    // Get the row to delete
-    const row = button.parentNode.parentNode;
-    row.parentNode.removeChild(row);
+function updateReservationList() {
+    const reservationList = document.getElementById("reservationList");
+    reservationList.innerHTML = ''; 
+    reservations.forEach((reservation, index) => {
+        const li = document.createElement("li");
+        li.textContent = `${reservation.name} - Guests: ${reservation.numberOfGuests} - Time: ${reservation.reservationTime.toLocaleString()}`;
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.onclick = () => deleteReservation(index);
+        li.appendChild(deleteButton);
+        reservationList.appendChild(li);
+    });
 }
 
-function updateRow(button) {
-    const row = button.parentNode.parentNode;
-    const trainNumber = prompt("Update Train Number:", row.cells[0].innerText);
-    const arrivalTime = prompt("Update Arrival Time:", row.cells[1].innerText);
-    const departureTime = prompt("Update Departure Time:", row.cells[2].innerText);
-    
-    if (trainNumber && arrivalTime && departureTime) {
-        row.cells[0].innerText = customername;
-        row.cells[1].innerText = numberofguests;
-        row.cells[2].innerText = reservationtime;
-    } else {
-        alert("All fields must be filled.");
-    }
+
+function deleteReservation(index) {
+    reservations.splice(index, 1);
+    updateReservationList();
 }
+
+
+document.getElementById("reservationForm").addEventListener("submit", function(event) {
+    event.preventDefault(); 
+    const name = document.getElementById("name").value;
+    const numberOfGuests = document.getElementById("numberOfGuests").value;
+    const reservationTime = document.getElementById("reservationTime").value;
+
+    addReservation(name, numberOfGuests, reservationTime);
+  
+    document.getElementById("reservationForm").reset();
+});
